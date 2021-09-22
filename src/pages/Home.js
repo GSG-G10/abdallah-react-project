@@ -6,12 +6,15 @@ function Home() {
     const [images, setImages] = useState([]);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
-    const [bookmarks, setBookmarks] = useState(JSON.parse(localStorage.getItem('bookmarks')) || []);
+    const [bookmarks, setBookmarks] = useState(JSON.parse(localStorage.getItem('bookmarks') || '[]'));
 
     function addToBookmarks(image) {
         setBookmarks((prev) => [...prev, image.urls.regular]);
-        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
     }
+
+    useEffect(() => {
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    }, [bookmarks]);
 
     const imagesList = images && images.map(image =>
         <img
